@@ -1,9 +1,10 @@
 import {Directive, ElementRef, Input, OnDestroy, OnInit} from '@angular/core';
-import {debounceTime, fromEvent, Subscription} from "rxjs";
+import {debounceTime, fromEvent, Subscription} from 'rxjs';
 import {
   BOX_CONTAINER_FULL_WIDTH,
   BOX_CONTAINER_GAP,
-} from "../../core/constants/box-container-style-sizes";
+  WIDTH_MULTIPLE
+} from '../../core/constants/box-container-style-sizes';
 
 
 @Directive({
@@ -19,14 +20,13 @@ export class FieldBoxSizeDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setBoxSizes();
-    // this.setMaxSizes();
     this.subscription.add(
       fromEvent(window, 'resize').pipe(
         debounceTime(50),
       ).subscribe(
         () => this.setBoxSizes()
       )
-    )
+    );
   }
 
   private setBoxSizes(): void {
@@ -34,24 +34,29 @@ export class FieldBoxSizeDirective implements OnInit, OnDestroy {
       const relativelyWidth = this.calculateRelativelyBoxWidth();
 
     if (relativelyWidth) {
-        elementStyle.width = `${relativelyWidth}%`;
-        elementStyle.paddingTop = `${relativelyWidth}%`;
-      }
+        elementStyle.height = this.calculateBoxWidthInPixels(relativelyWidth);
+        elementStyle.width = elementStyle.height;
+    }
     }
 
   private calculateRelativelyBoxWidth(): number | void {
     if (this.numberOfElementsInRow) {
-      const widthForBox = Math.floor(this.getContainerWidthForDividing() / this.numberOfElementsInRow);
+      const widthForBox = Math.floor(this.getContainerWidthForDividing() * WIDTH_MULTIPLE / this.numberOfElementsInRow);
       return widthForBox;
     }
   }
 
   private getContainerWidthForDividing(): number {
-    return BOX_CONTAINER_FULL_WIDTH - ( BOX_CONTAINER_GAP * 2);
+    return BOX_CONTAINER_FULL_WIDTH - ( BOX_CONTAINER_GAP * 2 );
   }
 
+  private calculateBoxWidthInPixels(widthInPercent: number): string {
+    const widthInPixels = window.innerHeight * widthInPercent / 100;
+    return `${widthInPixels}px`;
+  }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe()
+    this.subscription.unsubscribe();
   }
+
 }

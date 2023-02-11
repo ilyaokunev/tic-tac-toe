@@ -4,6 +4,8 @@
   vertical-align: center;
   box-sizing: border-box;
   position: relative;
+  max-width: 200px;
+  max-height: 200px;
 }
 
 .boxContent {
@@ -17,3 +19,9 @@
   background-position: center;
 }
 
+@media (min-width: 900px) {
+ :host {
+   max-width: 270px;
+   max-height: 270px;
+ }
+}

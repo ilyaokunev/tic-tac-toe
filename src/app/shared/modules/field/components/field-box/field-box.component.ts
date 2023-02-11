@@ -28,7 +28,7 @@ export class FieldBoxComponent implements OnChanges {
 
   private setBackground(): void {
     if (this.boxStatus !== FIELD_STATUSES.UNTOUCHED) {
-      const status = this.boxStatus as FilledFieldStatus
+      const status = this.boxStatus as FilledFieldStatus;
       const url = `url(${CROSS_AND_NOUGHT_IMG_PATHES[status]})`;
       this.renderer.setStyle(this.boxContent.nativeElement, 'backgroundImage', url);
     }
