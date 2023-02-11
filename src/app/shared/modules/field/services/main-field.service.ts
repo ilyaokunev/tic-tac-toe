@@ -1,6 +1,7 @@
-import {ChangeDetectorRef, Injectable} from '@angular/core';
-import {FieldBoxInterface, FilledFieldStatus} from "../../../../core/interfaces/fieldBox.interface";
-import {FIELD_STATUSES} from "../../../../core/constants/field-statuses";
+import { Injectable} from '@angular/core';
+import {FieldBoxInterface, FilledFieldStatus} from '../../../../core/interfaces/fieldBox.interface';
+import {FIELD_STATUSES} from '../../../../core/constants/field-statuses';
+import {EndGameCheckService} from './end-game-check.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,18 @@ export class MainFieldService {
 
   private fieldMatrix: FieldBoxInterface[] = [];
   private whichTurn: FilledFieldStatus = FIELD_STATUSES.CROSS;
-  private rowSize: number = 3;
+  private rowSize = 3;
+  private isFinished = false;
 
+  constructor(
+    private endGameChecker: EndGameCheckService
+  ) {
+  }
 
   public createField(rowSize: number): void {
     this.rowSize = rowSize;
 
-    const arrayLength = this.rowSize**2;
+    const arrayLength = this.rowSize **2;
     for (let i = 0; i < arrayLength; i++) {
 
       const rowId = this.getRowId(i).toString();
@@ -23,8 +29,8 @@ export class MainFieldService {
       const boxObject: FieldBoxInterface = {
         id: i.toString(),
         fieldStatus: 'untouched',
-        rowId: rowId,
-      }
+        rowId,
+      };
 
       this.fieldMatrix.push(boxObject);
     }
@@ -40,11 +46,16 @@ export class MainFieldService {
   }
 
   public makeTurn(boxId: number): void {
-    const currentBox = this.fieldMatrix[boxId];
-    if (currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED) {
-      currentBox.fieldStatus = this.whichTurn;
-      this.setWhichTurn();
+
+    if (!this.isFinished) {
+      const currentBox = this.fieldMatrix[boxId];
+      if (currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED) {
+        currentBox.fieldStatus = this.whichTurn;
+        this.setWhichTurn();
+        this.isFinished = this.endGameChecker.isFinished(this.fieldMatrix);
+      }
     }
+
   }
 
   private setWhichTurn(): void {

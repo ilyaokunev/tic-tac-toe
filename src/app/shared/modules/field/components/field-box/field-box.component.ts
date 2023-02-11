@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild} from '@angular/core';
-import { FieldStatus, FilledFieldStatus} from "../../../../../core/interfaces/fieldBox.interface";
-import {FIELD_STATUSES} from "../../../../../core/constants/field-statuses";
-import {CROSS_AND_NOUGHT_IMG_PATHES} from "../../../../../core/constants/cross-and-nought-img-pathes";
+import { FieldStatus, FilledFieldStatus} from '../../../../../core/interfaces/fieldBox.interface';
+import {FIELD_STATUSES} from '../../../../../core/constants/field-statuses';
+import {CROSS_AND_NOUGHT_IMG_PATHES} from '../../../../../core/constants/cross-and-nought-img-pathes';
 
 @Component({
   selector: 'app-field-box',

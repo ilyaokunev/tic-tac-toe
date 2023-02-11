@@ -33,7 +33,7 @@ export class FieldBoxSizeDirective implements OnInit, OnDestroy {
       const elementStyle = this.el.nativeElement.style;
       const relativelyWidth = this.calculateRelativelyBoxWidth();
 
-    if (relativelyWidth) {
+      if (relativelyWidth) {
         elementStyle.height = this.calculateBoxWidthInPixels(relativelyWidth);
         elementStyle.width = elementStyle.height;
     }

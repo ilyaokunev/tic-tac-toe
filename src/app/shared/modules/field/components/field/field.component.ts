@@ -1,6 +1,6 @@
 import { Component, Input, OnInit} from '@angular/core';
-import {MainFieldService} from "../../services/main-field.service";
-import {FieldBoxInterface} from "../../../../../core/interfaces/fieldBox.interface";
+import {MainFieldService} from '../../services/main-field.service';
+import {FieldBoxInterface} from '../../../../../core/interfaces/fieldBox.interface';
 
 @Component({
   selector: 'app-field',
@@ -10,7 +10,7 @@ import {FieldBoxInterface} from "../../../../../core/interfaces/fieldBox.interfa
 export class FieldComponent implements OnInit {
 
   @Input()
-  fieldSize: string = '3';
+  fieldSize = '3';
 
   public field: FieldBoxInterface[] | undefined;
 
