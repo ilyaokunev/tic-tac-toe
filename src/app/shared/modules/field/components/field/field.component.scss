@@ -1,0 +1,23 @@
+
+.boxes-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 auto;
+  margin-top: 10%;
+  position: relative;
+  max-width: 80%;
+}
+
+@media (min-width: 760px) {
+  .boxes-container {
+    max-width: 70%;
+  }
+}
+
+  @media (min-width: 1024px) {
+    .boxes-container {
+      max-width: 60%;
+    }
+  }

@@ -1,0 +1,6 @@
+<div class="boxes-container">
+  <ng-container *ngFor="let box of field; let i = index; trackBy:trackByFunc">
+    <app-field-box appFieldBoxSize [numberOfElementsInRow]="+fieldSize" [boxStatus]="box.fieldStatus" (click)="makeTurn(i)">
+    </app-field-box>
+  </ng-container>
+</div>

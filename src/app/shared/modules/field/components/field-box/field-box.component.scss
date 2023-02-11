@@ -1,0 +1,19 @@
+:host {
+  border-radius: 5px;
+  border: 2px solid red;
+  vertical-align: center;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.boxContent {
+  position: absolute;
+  height: 95%;
+  width: 95%;
+  top: 2.5%;
+  left: 2.5%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
