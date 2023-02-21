@@ -55,7 +55,7 @@ export class MainFieldService {
         this.setWhichTurn();
       }
       if (this.isFinished) {
-        this.modalService.createModal(EndGameModalComponent);
+        this.modalService.createModal(EndGameModalComponent, {title: "Игра закончена"});
       }
 
   }

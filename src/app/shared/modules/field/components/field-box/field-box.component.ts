@@ -13,7 +13,7 @@ export class FieldBoxComponent implements OnChanges {
   @Input()
   boxStatus!: FieldStatus;
 
-  @ViewChild('boxContent')
+  @ViewChild('boxContent', {read: ElementRef, static: true})
   boxContent!: ElementRef;
 
   constructor(

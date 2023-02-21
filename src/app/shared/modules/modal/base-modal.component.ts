@@ -1,4 +1,4 @@
-import {Component, ElementRef, Injector, Input, Renderer2, Type, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, ElementRef, Injector, Input, OnInit, Renderer2, Type, ViewChild, ViewContainerRef} from '@angular/core';
 import {ModalDataInterface} from '../../../core/interfaces/modalData.interface';
 import {EndGameModalComponent} from './end-game-modal/end-game-modal.component';
 
@@ -8,7 +8,8 @@ import {EndGameModalComponent} from './end-game-modal/end-game-modal.component';
   templateUrl: './base-modal.component.html',
   styleUrls: ['./base-modal.component.scss']
 })
-export class BaseModalComponent {
+export class BaseModalComponent implements OnInit {
+
   @Input()
   public componentForContent!: Type<any>;
 
@@ -18,6 +19,8 @@ export class BaseModalComponent {
   @ViewChild('modalContent', { read: ViewContainerRef, static: true })
   public readonly modalContent!:ViewContainerRef;
 
+  public title: string = '';
+
   constructor(
     private readonly renderer:Renderer2,
     private readonly elRef:ElementRef,
@@ -26,12 +29,19 @@ export class BaseModalComponent {
   }
 
   ngOnInit(): void {
-    this.createContent()
+    this.createContent();
+    const propsTitle = this.modalProps?.title;
+    this.setTitle(propsTitle ? propsTitle : '');
   }
+
 
   private createContent(): void {
     const injector = Injector.create([],this.injector);
-    const contentComponentRef = this.modalContent.createComponent(EndGameModalComponent, {injector});
+    const contentComponentRef = this.modalContent.createComponent(this.componentForContent, {injector});
 
+  }
+
+  private setTitle(title: string): void {
+    this.title = title;
   }
 }
