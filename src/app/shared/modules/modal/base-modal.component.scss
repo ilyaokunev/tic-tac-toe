@@ -1,0 +1,46 @@
+@import './src/styles.scss';
+
+.modal-overlay {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  .modal-box-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: $overlay-color;
+  }
+
+  .modal-box {
+    position: absolute;
+    top: 20vh;
+    width: 50vw;
+    height: 50vh;
+    box-shadow: rgb(146,146,146) 0px 0px 10px 10px;
+    background-color: $modal-background;
+    border-radius: $modal-box-border-radius;
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 40px;
+      padding: 5px 15px;
+      background-color: $main-color;
+      border-radius: $modal-header-border-radius;
+    }
+
+    .modal-content {
+      border-radius: $modal-content-border-radius;
+    }
+
+
+  }
+
+}

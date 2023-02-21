@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {FieldModule} from "./shared/modules/field/field.module";
+import {ModalModule} from './shared/modules/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import {FieldModule} from "./shared/modules/field/field.module";
   ],
   imports: [
     BrowserModule,
-    FieldModule
+    FieldModule,
+    ModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

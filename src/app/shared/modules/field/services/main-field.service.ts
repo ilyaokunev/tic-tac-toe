@@ -2,10 +2,10 @@ import { Injectable} from '@angular/core';
 import {FieldBoxInterface, FilledFieldStatus} from '../../../../core/interfaces/fieldBox.interface';
 import {FIELD_STATUSES} from '../../../../core/constants/field-statuses';
 import {EndGameCheckService} from './end-game-check.service';
+import {ModalService} from '../../../../core/services/modal.service';
+import {EndGameModalComponent} from '../../modal/end-game-modal/end-game-modal.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MainFieldService {
 
   private fieldMatrix: FieldBoxInterface[] = [];
@@ -14,7 +14,8 @@ export class MainFieldService {
   private isFinished = false;
 
   constructor(
-    private endGameChecker: EndGameCheckService
+    private endGameChecker: EndGameCheckService,
+    private modalService: ModalService,
   ) {
   }
 
@@ -47,14 +48,15 @@ export class MainFieldService {
 
   public makeTurn(boxId: number): void {
 
-    if (!this.isFinished) {
       const currentBox = this.fieldMatrix[boxId];
       if (currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED) {
         currentBox.fieldStatus = this.whichTurn;
+        this.isFinished = this.endGameChecker.isFinished(this.fieldMatrix, this.whichTurn);
         this.setWhichTurn();
-        this.isFinished = this.endGameChecker.isFinished(this.fieldMatrix);
       }
-    }
+      if (this.isFinished) {
+        this.modalService.createModal(EndGameModalComponent);
+      }
 
   }
 

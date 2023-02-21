@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import {FieldComponent} from './components/field/field.component';
 import { FieldBoxComponent } from './components/field-box/field-box.component';
 import {FieldBoxSizeDirective} from '../../directives/field-box-size.directive';
+import {EndGameCheckService} from './services/end-game-check.service';
+import {MainFieldService} from './services/main-field.service';
 
 
 
@@ -16,7 +18,9 @@ import {FieldBoxSizeDirective} from '../../directives/field-box-size.directive';
     FieldComponent
   ],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+  ],
+  providers: [EndGameCheckService,
+  MainFieldService],
 })
 export class FieldModule { }

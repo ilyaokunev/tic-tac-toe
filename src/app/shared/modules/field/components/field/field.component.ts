@@ -3,7 +3,7 @@ import {MainFieldService} from '../../services/main-field.service';
 import {FieldBoxInterface} from '../../../../../core/interfaces/fieldBox.interface';
 
 @Component({
-  selector: 'app-field',
+  selector: 'app-field[fieldSize]',
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.scss']
 })
@@ -14,7 +14,8 @@ export class FieldComponent implements OnInit {
 
   public field: FieldBoxInterface[] | undefined;
 
-  constructor(private mainFieldService: MainFieldService) {
+  constructor(
+    private mainFieldService: MainFieldService) {
   }
 
   ngOnInit(): void {
