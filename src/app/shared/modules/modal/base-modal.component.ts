@@ -14,12 +14,12 @@ export class BaseModalComponent implements OnInit {
   public componentForContent!: Type<any>;
 
   @Input()
-  public modalProps?: ModalDataInterface;
+  public modalProps!: ModalDataInterface;
 
   @ViewChild('modalContent', { read: ViewContainerRef, static: true })
   public readonly modalContent!:ViewContainerRef;
 
-  public title: string = '';
+  public title: string | undefined = '';
 
   constructor(
     private readonly renderer:Renderer2,
@@ -30,8 +30,8 @@ export class BaseModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.createContent();
-    const propsTitle = this.modalProps?.title;
-    this.setTitle(propsTitle ? propsTitle : '');
+    const { title } = this.modalProps;
+    this.setTitle(title);
   }
 
 
@@ -41,7 +41,7 @@ export class BaseModalComponent implements OnInit {
 
   }
 
-  private setTitle(title: string): void {
+  private setTitle(title: string | undefined): void {
     this.title = title;
   }
 }

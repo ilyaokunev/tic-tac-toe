@@ -12,6 +12,8 @@ import {ModalDataInterface} from '../interfaces/modalData.interface';
 import {BaseModalComponent} from '../../shared/modules/modal/base-modal.component';
 import {EndGameModalComponent} from '../../shared/modules/modal/end-game-modal/end-game-modal.component';
 import {DOCUMENT} from '@angular/common';
+import ModalData from '../constants/modal-data-params-default';
+import MODAL_DATA_DEFAULT from '../constants/modal-data-params-default';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +40,10 @@ export class ModalService {
       this.componentFactoryResolver.resolveComponentFactory(BaseModalComponent).create(this.injector);
 
     baseModalComponentComponentRef.instance.componentForContent = EndGameModalComponent;
-    baseModalComponentComponentRef.instance.modalProps = props;
+    baseModalComponentComponentRef.instance.modalProps = {
+     title: props?.title || MODAL_DATA_DEFAULT.title,
+      isFullscreen: props?.isFullscreen || MODAL_DATA_DEFAULT.isFullscreen
+    };
 
     // Добавляем в дерево компонентов чтобы Ангуляр мог отслеживать изменения в компоненте
     this.appRef.attachView(baseModalComponentComponentRef.hostView);
