@@ -5,6 +5,7 @@ import { EndGameCheckService } from './end-game-check.service';
 import { ModalService } from '../../../../core/services/modal.service';
 import { EndGameModalComponent } from '../../modal/end-game-modal/end-game-modal.component';
 import { take } from 'rxjs';
+import {MODAL_TITLES} from '../../../../core/constants/modal-titles';
 
 @Injectable()
 export class MainFieldService {
@@ -25,7 +26,9 @@ export class MainFieldService {
     this.endGameChecker.winner$.pipe(
       take(1),
     ).subscribe((winner) => {
-      this.modalService.createModal( EndGameModalComponent, {data: {winner} } );
+      this.modalService.createModal(
+        EndGameModalComponent, { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} }
+      );
     })
   }
 
