@@ -25,6 +25,8 @@
     box-shadow: rgb(146,146,146) 0px 0px 10px 10px;
     background-color: $modal-background;
     border-radius: $modal-box-border-radius;
+    display: flex;
+    flex-direction: column;
 
     .modal-header {
       display: flex;

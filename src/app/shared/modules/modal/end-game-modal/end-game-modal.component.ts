@@ -4,7 +4,7 @@ import {EndGameModalDataInterface} from './end-game-modal-data-interface';
 @Component({
   selector: 'app-end-game-modal',
   templateUrl: './end-game-modal.component.html',
-  styleUrls: ['./end-game-modal.component.css']
+  styleUrls: ['./end-game-modal.component.scss']
 })
 export class EndGameModalComponent implements AfterContentInit {
 
