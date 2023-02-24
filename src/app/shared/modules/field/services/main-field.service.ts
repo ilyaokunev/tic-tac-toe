@@ -1,7 +1,7 @@
 import { Injectable} from '@angular/core';
 import { FieldBoxInterface, FilledFieldStatus } from '../../../../core/interfaces/fieldBox.interface';
 import { FIELD_STATUSES } from '../../../../core/constants/field-statuses';
-import { EndGameCheckService } from './end-game-check.service';
+import { EndGameWinnerCheckService } from './end-game-winner-check.service';
 import { ModalService } from '../../../../core/services/modal.service';
 import { EndGameModalComponent } from '../../modal/end-game-modal/end-game-modal.component';
 import { take } from 'rxjs';
@@ -15,7 +15,7 @@ export class MainFieldService {
   private rowSize = 3;
 
   constructor(
-    private endGameChecker: EndGameCheckService,
+    private endGameChecker: EndGameWinnerCheckService,
     private modalService: ModalService,
   ) {
     this.subscribeForWinner();
@@ -64,7 +64,7 @@ export class MainFieldService {
       const currentBox = this.fieldMatrix[boxId];
       if (currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED) {
         currentBox.fieldStatus = this.whichTurn;
-        this.endGameChecker.isFinished(this.fieldMatrix, this.whichTurn);
+        this.endGameChecker.startCheck(this.fieldMatrix, this.whichTurn);
         this.setWhichTurn();
       }
   }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {FieldComponent} from './components/field/field.component';
 import { FieldBoxComponent } from './components/field-box/field-box.component';
 import {FieldBoxSizeDirective} from '../../directives/field-box-size.directive';
-import {EndGameCheckService} from './services/end-game-check.service';
+import {EndGameWinnerCheckService} from './services/end-game-winner-check.service';
 import {MainFieldService} from './services/main-field.service';
 
 
@@ -20,7 +20,7 @@ import {MainFieldService} from './services/main-field.service';
   imports: [
     CommonModule,
   ],
-  providers: [EndGameCheckService,
+  providers: [EndGameWinnerCheckService,
   MainFieldService],
 })
 export class FieldModule { }
