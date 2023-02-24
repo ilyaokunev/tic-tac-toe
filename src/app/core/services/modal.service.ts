@@ -9,7 +9,7 @@ import {
   Type
 } from '@angular/core';
 import {ModalDataInterface} from '../interfaces/modalData.interface';
-import {BaseModalComponent} from '../../shared/modules/modal/base-modal.component';
+import {BaseModalComponent} from '../../shared/modules/modal/base-modal/base-modal.component';
 import {DOCUMENT} from '@angular/common';
 import MODAL_DATA_DEFAULT from '../constants/modal-data-params-default';
 import {Subject, take} from 'rxjs';

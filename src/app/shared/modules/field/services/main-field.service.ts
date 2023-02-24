@@ -81,11 +81,11 @@ export class MainFieldService {
       ? FIELD_STATUSES.NOUGHT : FIELD_STATUSES.CROSS;
   };
 
-  private resetGame(): void {
+  public resetGame(): void {
     this.resetFieldStatuses();
     this.whichTurn = FIELD_STATUSES.CROSS;
-    this.unblockField();
     this.reset$.next(true);
+    this.unblockField();
   }
 
   private resetFieldStatuses(): void {

@@ -5,6 +5,7 @@ import { FieldBoxComponent } from './components/field-box/field-box.component';
 import {FieldBoxSizeDirective} from '../../directives/field-box-size.directive';
 import {EndGameWinnerCheckService} from './services/end-game-winner-check.service';
 import {MainFieldService} from './services/main-field.service';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -17,10 +18,13 @@ import {MainFieldService} from './services/main-field.service';
   exports: [
     FieldComponent
   ],
-  imports: [
-    CommonModule,
+    imports: [
+        CommonModule,
+        MatButtonModule,
+    ],
+  providers: [
+    EndGameWinnerCheckService,
+    MainFieldService
   ],
-  providers: [EndGameWinnerCheckService,
-  MainFieldService],
 })
 export class FieldModule { }

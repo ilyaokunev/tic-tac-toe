@@ -8,7 +8,11 @@
   align-items: center;
   color: $modal-icons-color;
 }
-.icon:hover {
-  cursor: pointer;
-  color: $modal-icons-hover;
+.icon {
+
+  &:hover {
+    cursor: pointer;
+    color: $modal-icons-hover;
+  }
+
 }

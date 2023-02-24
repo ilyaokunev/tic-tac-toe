@@ -48,6 +48,10 @@ export class FieldComponent implements OnInit, OnDestroy {
     this.mainFieldService.makeTurn(boxIndex);
   };
 
+  public resetGame(): void {
+    this.mainFieldService.resetGame()
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   };
