@@ -1,6 +1,6 @@
 import {Component, ElementRef, Injector, Input, OnInit, Renderer2, Type, ViewChild, ViewContainerRef} from '@angular/core';
 import {ModalDataInterface} from '../../../core/interfaces/modalData.interface';
-import {EndGameModalComponent} from './end-game-modal/end-game-modal.component';
+import {Observable, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-base-modal' +
@@ -13,6 +13,8 @@ export class BaseModalComponent implements OnInit {
   @Input()
   public componentForContent!: Type<any>;
 
+  public closeModalEvent$ = new Subject();
+
   @Input()
   public modalProps!: ModalDataInterface;
 
@@ -20,6 +22,10 @@ export class BaseModalComponent implements OnInit {
   public readonly modalContent!:ViewContainerRef;
 
   public title: string | undefined = '';
+
+  public isFullscreen = false;
+
+  public isFullscreen$ = new Subject<boolean>();
 
   constructor(
     private readonly renderer:Renderer2,
@@ -34,14 +40,32 @@ export class BaseModalComponent implements OnInit {
     this.setTitle(title);
   }
 
-
   private createContent(): void {
     const injector = Injector.create([],this.injector);
-    const contentComponentRef = this.modalContent.createComponent(this.componentForContent, {injector});
-
+    this.modalContent.createComponent(this.componentForContent, {injector});
   }
 
   private setTitle(title: string | undefined): void {
     this.title = title;
   }
+
+  public toggleFullscreen() {
+    this.isFullscreen = !this.isFullscreen;
+    this.isFullscreen$.next(this.isFullscreen);
+  }
+
+  public isFullscreenMode():Observable<boolean> {
+    return this.isFullscreen$.asObservable();
+  }
+
+  public closeModalFunc(data?: any): void {
+    this.closeModalEvent$.next(data);
+  }
+
+
+  public ngOnDestroy(): void {
+    this.closeModalEvent$.complete();
+    this.isFullscreen$.complete();
+  }
+
 }

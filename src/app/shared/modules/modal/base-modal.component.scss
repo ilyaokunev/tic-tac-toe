@@ -34,6 +34,14 @@
       padding: 5px 15px;
       background-color: $main-color;
       border-radius: $modal-header-border-radius;
+
+
+      .modal-header-buttons {
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+      }
+
     }
 
     .modal-content {
@@ -43,4 +51,10 @@
 
   }
 
+}
+
+.fullscreen-modal {
+  top: 0px !important;
+  width: calc(100% - 10px) !important;
+  height: calc(100% - 10px) !important;
 }

@@ -1,0 +1,14 @@
+@import './src/styles.scss';
+
+
+:host {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $modal-icons-color;
+}
+.icon:hover {
+  cursor: pointer;
+  color: $modal-icons-hover;
+}

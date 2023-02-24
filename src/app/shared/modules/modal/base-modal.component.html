@@ -1,12 +1,13 @@
 <div class="modal-overlay">
   <div class="modal-box-container">
-    <div class="modal-box">
+    <div class="modal-box" [ngClass]="{ 'fullscreen-modal': isFullscreen }">
       <div class="modal-header">
         <span class="modal-title">
           {{title}}
         </span>
         <div class="modal-header-buttons">
-ggggg
+          <app-base-material-button (click)="toggleFullscreen()" [iconName]="isFullscreen ? 'close_fullscreen' : 'tab'"></app-base-material-button>
+          <app-base-material-button (click)="closeModalFunc()" [iconName]="'close'"></app-base-material-button>
         </div>
       </div>
       <ng-container #modalContent></ng-container>

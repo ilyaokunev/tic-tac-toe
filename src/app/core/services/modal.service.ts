@@ -1,6 +1,6 @@
 import {
   ApplicationRef,
-  ComponentFactoryResolver,
+  ComponentFactoryResolver, ComponentRef,
   EmbeddedViewRef, Inject,
   Injectable,
   Injector,
@@ -14,6 +14,7 @@ import {EndGameModalComponent} from '../../shared/modules/modal/end-game-modal/e
 import {DOCUMENT} from '@angular/common';
 import ModalData from '../constants/modal-data-params-default';
 import MODAL_DATA_DEFAULT from '../constants/modal-data-params-default';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,8 @@ import MODAL_DATA_DEFAULT from '../constants/modal-data-params-default';
 export class ModalService {
 
   private renderer: Renderer2;
+
+  public closeModalEvent$ = new Subject();
 
   constructor(
     private readonly appRef:ApplicationRef,
@@ -45,6 +48,11 @@ export class ModalService {
       isFullscreen: props?.isFullscreen || MODAL_DATA_DEFAULT.isFullscreen
     };
 
+    baseModalComponentComponentRef.instance.closeModalEvent$.subscribe(() => {
+        this.destroyModal(baseModalComponentComponentRef);
+      }
+    )
+
     // Добавляем в дерево компонентов чтобы Ангуляр мог отслеживать изменения в компоненте
     this.appRef.attachView(baseModalComponentComponentRef.hostView);
 
@@ -53,5 +61,11 @@ export class ModalService {
       .rootNodes[0] as HTMLElement;
 
     this.renderer.appendChild(this.document.body, domElemFromComponent);
+  }
+
+
+  private destroyModal(componentRef: ComponentRef<BaseModalComponent>): void {
+    this.appRef.detachView(componentRef.hostView);
+    componentRef.destroy();
   }
 }
