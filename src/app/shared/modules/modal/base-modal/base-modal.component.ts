@@ -56,7 +56,7 @@ export class BaseModalComponent implements OnInit {
     this.isFullscreen$.next(this.isFullscreen);
   }
 
-  public isFullscreenMode():Observable<boolean> {
+  public isFullscreenMode$():Observable<boolean> {
     return this.isFullscreen$.asObservable();
   }
 
