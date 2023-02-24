@@ -18,8 +18,8 @@ export class FieldComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   constructor(
-    private mainFieldService: MainFieldService) {
-  }
+    private mainFieldService: MainFieldService
+  ) {}
 
   ngOnInit(): void {
     const fieldSizeInNumber = +this.fieldSize;
