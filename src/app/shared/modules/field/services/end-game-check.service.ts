@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FieldBoxInterface} from '../../../../core/interfaces/fieldBox.interface';
+import {Subject} from 'rxjs';
 
 const winIndex = [
   [1, 2, 3],
@@ -13,13 +14,17 @@ const winIndex = [
 ];
 
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+  })
 export class EndGameCheckService {
+
+  public winner$ = new Subject<string>();
 
   constructor() { }
 
-  public isFinished(fieldMatrix: FieldBoxInterface[], whichLastTurn: string): boolean {
+  public isFinished(fieldMatrix: FieldBoxInterface[], whichLastTurn: string): void {
     const arrayOfCurrentPlayerBoxes = fieldMatrix.filter(boxObj => boxObj.fieldStatus === whichLastTurn).map(boxObj => boxObj.id);
-      return true;
+    this.winner$.next(whichLastTurn);
   }
 }

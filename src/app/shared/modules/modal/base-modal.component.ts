@@ -1,6 +1,7 @@
 import {Component, ElementRef, Injector, Input, OnInit, Renderer2, Type, ViewChild, ViewContainerRef} from '@angular/core';
 import {ModalDataInterface} from '../../../core/interfaces/modalData.interface';
 import {Observable, Subject} from 'rxjs';
+import {EndGameModalComponent} from './end-game-modal/end-game-modal.component';
 
 @Component({
   selector: 'app-base-modal' +
@@ -42,7 +43,8 @@ export class BaseModalComponent implements OnInit {
 
   private createContent(): void {
     const injector = Injector.create([],this.injector);
-    this.modalContent.createComponent(this.componentForContent, {injector});
+    const component = this.modalContent.createComponent<EndGameModalComponent>(this.componentForContent, {injector});
+    component.instance.data = this.modalProps.data;
   }
 
   private setTitle(title: string | undefined): void {

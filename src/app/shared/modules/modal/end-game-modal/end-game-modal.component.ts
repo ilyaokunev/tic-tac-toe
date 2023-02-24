@@ -1,15 +1,20 @@
-import { Component } from '@angular/core';
+import {AfterContentInit, Component, Input} from '@angular/core';
+import {EndGameModalDataInterface} from './end-game-modal-data-interface';
 
 @Component({
   selector: 'app-end-game-modal',
   templateUrl: './end-game-modal.component.html',
   styleUrls: ['./end-game-modal.component.css']
 })
-export class EndGameModalComponent {
+export class EndGameModalComponent implements AfterContentInit {
 
-  public number: number = 0;
+  public winner?: string;
 
-  public upCount() {
-    this.number++;
+  @Input()
+  data!: EndGameModalDataInterface;
+
+  ngAfterContentInit(): void {
+    this.winner = this.data.winner;
   }
+
 }

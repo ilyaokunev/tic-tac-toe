@@ -1,9 +1,10 @@
 import { Injectable} from '@angular/core';
-import {FieldBoxInterface, FilledFieldStatus} from '../../../../core/interfaces/fieldBox.interface';
-import {FIELD_STATUSES} from '../../../../core/constants/field-statuses';
-import {EndGameCheckService} from './end-game-check.service';
-import {ModalService} from '../../../../core/services/modal.service';
-import {EndGameModalComponent} from '../../modal/end-game-modal/end-game-modal.component';
+import { FieldBoxInterface, FilledFieldStatus } from '../../../../core/interfaces/fieldBox.interface';
+import { FIELD_STATUSES } from '../../../../core/constants/field-statuses';
+import { EndGameCheckService } from './end-game-check.service';
+import { ModalService } from '../../../../core/services/modal.service';
+import { EndGameModalComponent } from '../../modal/end-game-modal/end-game-modal.component';
+import { take } from 'rxjs';
 
 @Injectable()
 export class MainFieldService {
@@ -11,12 +12,21 @@ export class MainFieldService {
   private fieldMatrix: FieldBoxInterface[] = [];
   private whichTurn: FilledFieldStatus = FIELD_STATUSES.CROSS;
   private rowSize = 3;
-  private isFinished = false;
 
   constructor(
     private endGameChecker: EndGameCheckService,
     private modalService: ModalService,
   ) {
+    this.subscribeForWinner();
+  }
+
+  // нужно продумать логику начала новой партии, чтобы решить нужен ли тут take
+  private subscribeForWinner(): void {
+    this.endGameChecker.winner$.pipe(
+      take(1),
+    ).subscribe((winner) => {
+      this.modalService.createModal( EndGameModalComponent, {data: {winner} } );
+    })
   }
 
   public createField(rowSize: number): void {
@@ -51,13 +61,9 @@ export class MainFieldService {
       const currentBox = this.fieldMatrix[boxId];
       if (currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED) {
         currentBox.fieldStatus = this.whichTurn;
-        this.isFinished = this.endGameChecker.isFinished(this.fieldMatrix, this.whichTurn);
+        this.endGameChecker.isFinished(this.fieldMatrix, this.whichTurn);
         this.setWhichTurn();
       }
-      if (this.isFinished) {
-        this.modalService.createModal(EndGameModalComponent, {title: "Игра закончена"});
-      }
-
   }
 
   private setWhichTurn(): void {

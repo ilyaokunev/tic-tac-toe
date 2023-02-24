@@ -12,9 +12,8 @@ import {ModalDataInterface} from '../interfaces/modalData.interface';
 import {BaseModalComponent} from '../../shared/modules/modal/base-modal.component';
 import {EndGameModalComponent} from '../../shared/modules/modal/end-game-modal/end-game-modal.component';
 import {DOCUMENT} from '@angular/common';
-import ModalData from '../constants/modal-data-params-default';
 import MODAL_DATA_DEFAULT from '../constants/modal-data-params-default';
-import {Subject} from 'rxjs';
+import {Subject, take} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +21,6 @@ import {Subject} from 'rxjs';
 export class ModalService {
 
   private renderer: Renderer2;
-
-  public closeModalEvent$ = new Subject();
 
   constructor(
     private readonly appRef:ApplicationRef,
@@ -44,11 +41,18 @@ export class ModalService {
 
     baseModalComponentComponentRef.instance.componentForContent = EndGameModalComponent;
     baseModalComponentComponentRef.instance.modalProps = {
-     title: props?.title || MODAL_DATA_DEFAULT.title,
-      isFullscreen: props?.isFullscreen || MODAL_DATA_DEFAULT.isFullscreen
+      title: props?.title || MODAL_DATA_DEFAULT.title,
+      isFullscreen: props?.isFullscreen || MODAL_DATA_DEFAULT.isFullscreen,
+      data: props?.data || MODAL_DATA_DEFAULT.data,
     };
 
-    baseModalComponentComponentRef.instance.closeModalEvent$.subscribe(() => {
+    // подписывается на событие закрытия модалки, чтобы уничтожить элемент
+    baseModalComponentComponentRef.instance.closeModalEvent$.pipe(
+      take(1),
+    ).subscribe(() => {
+        if (closeCallback) {
+          closeCallback();
+        }
         this.destroyModal(baseModalComponentComponentRef);
       }
     )
