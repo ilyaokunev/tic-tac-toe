@@ -28,8 +28,7 @@ export class MainFieldService {
   }
 
   private subscribeForWinner(): void {
-    this.endGameChecker.winner$.pipe(
-    ).subscribe((winner) => {
+    this.endGameChecker.winner$.subscribe((winner) => {
       this.modalService.createModal(
         EndGameModalComponent,
         { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
