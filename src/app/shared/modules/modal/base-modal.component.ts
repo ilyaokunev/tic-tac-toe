@@ -43,7 +43,7 @@ export class BaseModalComponent implements OnInit {
 
   private createContent(): void {
     const injector = Injector.create([],this.injector);
-    const component = this.modalContent.createComponent<EndGameModalComponent>(this.componentForContent, {injector});
+    const component = this.modalContent.createComponent<ModalDataInterface>(this.componentForContent, {injector});
     component.instance.data = this.modalProps.data;
   }
 
