@@ -2,6 +2,7 @@ import {Component, ElementRef, Injector, Input, OnInit, Renderer2, Type, ViewChi
 import {ModalDataInterface} from '../../../../core/interfaces/modalData.interface';
 import {Observable, Subject} from 'rxjs';
 import {EndGameModalComponent} from '../end-game-modal/end-game-modal.component';
+import {FULLSCREEN_MODE_EVENT_TOKEN} from '../../../../core/tokens/fullscreen-mode-event.token';
 
 @Component({
   selector: 'app-base-modal' +
@@ -42,7 +43,10 @@ export class BaseModalComponent implements OnInit {
   }
 
   private createContent(): void {
-    const injector = Injector.create([],this.injector);
+    const injector = Injector.create([
+        {provide: FULLSCREEN_MODE_EVENT_TOKEN, useValue: this.isFullscreenMode$()}
+      ],
+      this.injector);
     const component = this.modalContent.createComponent<ModalDataInterface>(this.componentForContent, {injector});
     component.instance.data = this.modalProps.data;
   }
