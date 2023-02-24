@@ -4,15 +4,21 @@ import { FIELD_STATUSES } from '../../../../core/constants/field-statuses';
 import { EndGameWinnerCheckService } from './end-game-winner-check.service';
 import { ModalService } from '../../../../core/services/modal.service';
 import { EndGameModalComponent } from '../../modal/end-game-modal/end-game-modal.component';
-import { take } from 'rxjs';
+import {Subject, take} from 'rxjs';
 import {MODAL_TITLES} from '../../../../core/constants/modal-titles';
 
 @Injectable()
 export class MainFieldService {
 
   private fieldMatrix: FieldBoxInterface[] = [];
+
+  private isTurnsBlocked = false;
+
   private whichTurn: FilledFieldStatus = FIELD_STATUSES.CROSS;
+
   private rowSize = 3;
+
+  public reset$ = new Subject();
 
   constructor(
     private endGameChecker: EndGameWinnerCheckService,
@@ -21,13 +27,13 @@ export class MainFieldService {
     this.subscribeForWinner();
   }
 
-  // нужно продумать логику начала новой партии, чтобы решить нужен ли тут take
   private subscribeForWinner(): void {
     this.endGameChecker.winner$.pipe(
-      take(1),
     ).subscribe((winner) => {
       this.modalService.createModal(
-        EndGameModalComponent, { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} }
+        EndGameModalComponent,
+        { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
+        this.blockField.bind(this),
       );
     })
   }
@@ -48,30 +54,51 @@ export class MainFieldService {
 
       this.fieldMatrix.push(boxObject);
     }
-  }
+  };
 
   public getField(): FieldBoxInterface[] {
     return this.fieldMatrix;
-  }
+  };
 
   private getRowId(boxId: number): number {
     const rowId = Math.floor(boxId / this.rowSize)
     return rowId;
-  }
+  };
 
   public makeTurn(boxId: number): void {
-
       const currentBox = this.fieldMatrix[boxId];
-      if (currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED) {
+
+      if ( !this.isTurnsBlocked && currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED ) {
         currentBox.fieldStatus = this.whichTurn;
         this.endGameChecker.startCheck(this.fieldMatrix, this.whichTurn);
         this.setWhichTurn();
       }
-  }
+
+  };
 
   private setWhichTurn(): void {
     this.whichTurn = this.whichTurn === FIELD_STATUSES.CROSS
       ? FIELD_STATUSES.NOUGHT : FIELD_STATUSES.CROSS;
   };
 
+  private resetGame(): void {
+    this.resetFieldStatuses();
+    this.whichTurn = FIELD_STATUSES.CROSS;
+    this.unblockField();
+    this.reset$.next(true);
+  }
+
+  private resetFieldStatuses(): void {
+    this.fieldMatrix.forEach( box => {
+      box.fieldStatus = FIELD_STATUSES.UNTOUCHED;
+    });
+  }
+
+  private blockField(): void {
+    this.isTurnsBlocked = true;
+  }
+
+  private unblockField(): void {
+    this.isTurnsBlocked = false;
+  }
 }

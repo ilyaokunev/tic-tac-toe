@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import {ModalDataInterface} from '../interfaces/modalData.interface';
 import {BaseModalComponent} from '../../shared/modules/modal/base-modal.component';
-import {EndGameModalComponent} from '../../shared/modules/modal/end-game-modal/end-game-modal.component';
 import {DOCUMENT} from '@angular/common';
 import MODAL_DATA_DEFAULT from '../constants/modal-data-params-default';
 import {Subject, take} from 'rxjs';
@@ -39,7 +38,7 @@ export class ModalService {
     const baseModalComponentComponentRef =
       this.componentFactoryResolver.resolveComponentFactory(BaseModalComponent).create(this.injector);
 
-    baseModalComponentComponentRef.instance.componentForContent = EndGameModalComponent;
+    baseModalComponentComponentRef.instance.componentForContent = modalComponent;
     baseModalComponentComponentRef.instance.modalProps = {
       title: props?.title || MODAL_DATA_DEFAULT.title,
       isFullscreen: props?.isFullscreen || MODAL_DATA_DEFAULT.isFullscreen,

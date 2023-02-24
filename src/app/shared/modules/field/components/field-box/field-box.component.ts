@@ -20,6 +20,7 @@ export class FieldBoxComponent implements OnChanges {
     private renderer: Renderer2,
     ) {}
 
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['boxStatus']) {
       this.setBackground();
@@ -31,6 +32,8 @@ export class FieldBoxComponent implements OnChanges {
       const status = this.boxStatus as FilledFieldStatus;
       const url = `url(${CROSS_AND_NOUGHT_IMG_PATHES[status]})`;
       this.renderer.setStyle(this.boxContent.nativeElement, 'backgroundImage', url);
+    } else {
+      this.renderer.removeStyle(this.boxContent.nativeElement, 'backgroundImage');
     }
   }
 
