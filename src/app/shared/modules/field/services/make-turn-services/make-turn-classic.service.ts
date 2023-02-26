@@ -9,12 +9,14 @@ import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-moda
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {EndGameCheckClassicService} from '../end-game-check-services/end-game-check-classic.service';
-import {take} from 'rxjs';
+import {Subscription, take} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MakeTurnClassicService implements MakeTurnInterface {
+
+  private subscription = new Subscription();
 
   private fieldMatrix: FieldBoxInterface[] = [];
 
@@ -36,21 +38,25 @@ export class MakeTurnClassicService implements MakeTurnInterface {
   }
 
   public subscribeForReset(): void {
-    this.mainFieldService.reset$.subscribe(() => {
-      this.reset();
-    })
+    this.subscription.add(
+      this.mainFieldService.reset$.subscribe(() => {
+        this.reset();
+      })
+    )
   }
 
   public subscribeForWinner(): void {
-    this.endGameChecker.winner$.pipe(
-      take(1),
-    ).subscribe((winner) => {
-      this.modalService.createModal(
-        EndGameModalComponent,
-        { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
-        this.blockField.bind(this),
-      );
-    })
+    this.subscription.add(
+      this.endGameChecker.winner$.pipe(
+        take(1),
+      ).subscribe((winner) => {
+        this.modalService.createModal(
+          EndGameModalComponent,
+          { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
+          this.blockField.bind(this),
+        );
+      })
+    )
   }
 
   public makeTurn(boxId: number): void {
@@ -83,6 +89,8 @@ export class MakeTurnClassicService implements MakeTurnInterface {
     this.whichTurn = FIELD_STATUSES.CROSS;
   }
 
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
 }
