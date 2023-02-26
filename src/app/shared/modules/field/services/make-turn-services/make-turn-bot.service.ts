@@ -9,6 +9,7 @@ import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-moda
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {EndGameCheckClassicService} from '../end-game-check-services/end-game-check-classic.service';
+import {EndGameCheckBotService} from '../end-game-check-services/end-game-check-bot.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class MakeTurnBotService implements MakeTurnInterface {
   constructor(
     private mainFieldService: MainFieldService,
     private modalService: ModalService,
-    private endGameChecker: EndGameCheckClassicService,
+    private endGameChecker: EndGameCheckBotService,
   ) {
     this.subscribeForWinner();
     this.subscribeForReset();

@@ -3,20 +3,15 @@ import {MakeTurnInterface} from './make-turn.interface';
 import {MainFieldService} from '../main-field.service';
 import {FieldBoxInterface, FilledFieldStatus} from '../../../../../core/interfaces/fieldBox.interface';
 import {FIELD_STATUSES} from '../../../../../core/constants/field-statuses';
-import {END_GAME_CHECK_SERVICE_TOKEN} from '../../../../../core/tokens/end-game-check-service.token';
-import {EndGameCheckInterface} from '../end-game-check-services/make-turn.interface';
 import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-modal.component';
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {EndGameCheckClassicService} from '../end-game-check-services/end-game-check-classic.service';
-import {Subscription, take} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MakeTurnClassicService implements MakeTurnInterface {
-
-  private subscription = new Subscription();
 
   private fieldMatrix: FieldBoxInterface[] = [];
 
@@ -33,22 +28,19 @@ export class MakeTurnClassicService implements MakeTurnInterface {
     this.subscribeForReset();
   }
 
+
   public init(fieldMatrix: FieldBoxInterface[]): void {
     this.fieldMatrix = fieldMatrix;
   }
 
   public subscribeForReset(): void {
-    this.subscription.add(
       this.mainFieldService.reset$.subscribe(() => {
         this.reset();
       })
-    )
   }
 
   public subscribeForWinner(): void {
-    this.subscription.add(
       this.endGameChecker.winner$.pipe(
-        take(1),
       ).subscribe((winner) => {
         this.modalService.createModal(
           EndGameModalComponent,
@@ -56,7 +48,6 @@ export class MakeTurnClassicService implements MakeTurnInterface {
           this.blockField.bind(this),
         );
       })
-    )
   }
 
   public makeTurn(boxId: number): void {
@@ -87,10 +78,6 @@ export class MakeTurnClassicService implements MakeTurnInterface {
     this.unblockField();
     this.fieldMatrix = this.mainFieldService.getField();
     this.whichTurn = FIELD_STATUSES.CROSS;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
 }
