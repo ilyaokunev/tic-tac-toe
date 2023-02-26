@@ -7,7 +7,7 @@ import {FIELD_STATUSES} from '../../core/constants/field-statuses';
 export class FigureNameToIconPipe implements PipeTransform {
 
   transform(value: unknown): unknown {
-    return value === FIELD_STATUSES.CROSS ? 'X' : 'O';
+    return value === FIELD_STATUSES.CROSS ? 'X' : value === FIELD_STATUSES.NOUGHT ? 'O' : value;
   }
 
 }

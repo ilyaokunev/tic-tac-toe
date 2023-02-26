@@ -46,6 +46,7 @@ export class EndGameCheckClassicService implements EndGameCheckInterface {
       this.whichTurn = whichLastTurn;
       this.check();
     }
+    if (this.turnCount === 9) this.setWinner('Ничья')
   }
 
   private check(): void {
@@ -64,10 +65,10 @@ export class EndGameCheckClassicService implements EndGameCheckInterface {
 
   private endGame(): void {
     this.turnCount = 0;
-    this.setWinner();
+    this.setWinner(this.whichTurn);
   }
 
-  private setWinner(): void {
-    this.winner$.next(this.whichTurn);
+  private setWinner(winner: string): void {
+    this.winner$.next(winner);
   }
 }
