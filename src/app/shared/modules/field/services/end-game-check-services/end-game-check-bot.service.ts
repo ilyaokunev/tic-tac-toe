@@ -40,7 +40,7 @@ export class EndGameCheckBotService implements EndGameCheckInterface {
     this.matrix = matrix;
   }
 
-  public startCheck(fieldMatrix: FieldBoxInterface[], whichLastTurn: FieldStatus): void {
+  public startCheck(whichLastTurn: FieldStatus): void {
     this.turnCount++;
     if (this.turnCount >= MINIMUM_TURNS_TO_WIN) {
       this.whichTurn = whichLastTurn;

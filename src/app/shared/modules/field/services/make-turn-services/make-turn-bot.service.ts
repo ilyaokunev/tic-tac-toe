@@ -53,7 +53,7 @@ export class MakeTurnBotService implements MakeTurnInterface {
     const currentBox = this.fieldMatrix[boxId];
     if ( !this.isTurnsBlocked && currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED ) {
       currentBox.fieldStatus = this.whichTurn;
-      this.endGameChecker.startCheck(this.fieldMatrix, this.whichTurn);
+      this.endGameChecker.startCheck(this.whichTurn);
       this.setWhichTurn();
     }
 

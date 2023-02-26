@@ -7,6 +7,6 @@ export interface EndGameCheckInterface {
 
   winner$:Subject<string>;
 
-  startCheck: (fieldMatrix: FieldBoxInterface[], whichLastTurn: FieldStatus) => void;
+  startCheck: (whichLastTurn: FieldStatus) => void;
 
 }
