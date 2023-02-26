@@ -1,14 +1,11 @@
-import {Inject, Injectable} from '@angular/core';
+import { Injectable} from '@angular/core';
 import {MakeTurnInterface} from './make-turn.interface';
 import {MainFieldService} from '../main-field.service';
 import {FieldBoxInterface, FilledFieldStatus} from '../../../../../core/interfaces/fieldBox.interface';
 import {FIELD_STATUSES} from '../../../../../core/constants/field-statuses';
-import {END_GAME_CHECK_SERVICE_TOKEN} from '../../../../../core/tokens/end-game-check-service.token';
-import {EndGameCheckInterface} from '../end-game-check-services/end-game-check.interface';
 import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-modal.component';
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
-import {EndGameCheckClassicService} from '../end-game-check-services/end-game-check-classic.service';
 import {EndGameCheckBotService} from '../end-game-check-services/end-game-check-bot.service';
 
 @Injectable({
