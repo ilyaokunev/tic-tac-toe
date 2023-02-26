@@ -5,6 +5,7 @@ import {MainFieldService} from '../field/services/main-field.service';
 import {MAKE_TURN_SERVICE_TOKEN} from '../../../core/tokens/make-turn-service.token';
 import {MakeTurnClassicService} from '../field/services/make-turn-services/make-turn-classic.service';
 import {EndGameCheckClassicService} from '../field/services/end-game-check-services/end-game-check-classic.service';
+import {MakeTurnBotService} from '../field/services/make-turn-services/make-turn-bot.service';
 
 const routes: Routes = [
   {
@@ -13,7 +14,9 @@ const routes: Routes = [
   },
   {
     path:'bot', component: FieldComponent, providers: [
-
+      {
+        provide: MAKE_TURN_SERVICE_TOKEN, useClass: MakeTurnBotService,
+      }
     ]
   },
   {

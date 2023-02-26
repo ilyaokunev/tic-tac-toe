@@ -70,5 +70,6 @@ export class ModalService {
   private destroyModal(componentRef: ComponentRef<BaseModalComponent>): void {
     this.appRef.detachView(componentRef.hostView);
     componentRef.destroy();
+
   }
 }

@@ -1,4 +1,16 @@
-import {Component, ElementRef, Injector, Input, OnInit, Renderer2, Type, ViewChild, ViewContainerRef} from '@angular/core';
+import {
+  ApplicationRef,
+  Component,
+  ComponentRef,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit,
+  Renderer2,
+  Type,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ModalDataInterface} from '../../../../core/interfaces/modalData.interface';
 import {Observable, Subject} from 'rxjs';
 import {EndGameModalComponent} from '../end-game-modal/end-game-modal.component';
@@ -27,12 +39,15 @@ export class BaseModalComponent implements OnInit {
 
   public isFullscreen = false;
 
+  private modalContentComponent!: ComponentRef<ModalDataInterface>;
+
   public isFullscreen$ = new Subject<boolean>();
 
   constructor(
     private readonly renderer:Renderer2,
     private readonly elRef:ElementRef,
     private readonly injector: Injector,
+    private readonly appRef: ApplicationRef,
   ) {
   }
 
@@ -47,8 +62,9 @@ export class BaseModalComponent implements OnInit {
         {provide: FULLSCREEN_MODE_EVENT_TOKEN, useValue: this.isFullscreenMode$()}
       ],
       this.injector);
-    const component = this.modalContent.createComponent<ModalDataInterface>(this.componentForContent, {injector});
-    component.instance.data = this.modalProps.data;
+    this.modalContentComponent = this.modalContent
+      .createComponent<ModalDataInterface>(this.componentForContent, {injector});
+    this.modalContentComponent.instance.data = this.modalProps.data;
   }
 
   private setTitle(title: string | undefined): void {
@@ -72,6 +88,8 @@ export class BaseModalComponent implements OnInit {
   public ngOnDestroy(): void {
     this.closeModalEvent$.complete();
     this.isFullscreen$.complete();
+    this.modalContentComponent.destroy()
+    this.appRef.detachView(this.modalContentComponent.hostView);
   }
 
 }

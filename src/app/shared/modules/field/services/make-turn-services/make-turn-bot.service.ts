@@ -9,12 +9,11 @@ import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-moda
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
 import {EndGameCheckClassicService} from '../end-game-check-services/end-game-check-classic.service';
-import {take} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MakeTurnClassicService implements MakeTurnInterface {
+export class MakeTurnBotService implements MakeTurnInterface {
 
   private fieldMatrix: FieldBoxInterface[] = [];
 
@@ -42,9 +41,7 @@ export class MakeTurnClassicService implements MakeTurnInterface {
   }
 
   public subscribeForWinner(): void {
-    this.endGameChecker.winner$.pipe(
-      take(1),
-    ).subscribe((winner) => {
+    this.endGameChecker.winner$.subscribe((winner) => {
       this.modalService.createModal(
         EndGameModalComponent,
         { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
@@ -54,7 +51,7 @@ export class MakeTurnClassicService implements MakeTurnInterface {
   }
 
   public makeTurn(boxId: number): void {
-
+    console.log('bot service');
     const currentBox = this.fieldMatrix[boxId];
     if ( !this.isTurnsBlocked && currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED ) {
       currentBox.fieldStatus = this.whichTurn;
