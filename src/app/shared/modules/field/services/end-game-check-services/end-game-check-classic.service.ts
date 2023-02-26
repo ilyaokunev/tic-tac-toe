@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {FieldBoxInterface, FieldStatus} from '../../../../core/interfaces/fieldBox.interface';
+import {FieldBoxInterface, FieldStatus} from '../../../../../core/interfaces/fieldBox.interface';
 import {Subject} from 'rxjs';
+import {EndGameCheckInterface} from './make-turn.interface';
 
 const winIndex = [
   [1, 2, 3],
@@ -18,17 +19,22 @@ const MINIMUM_TURNS_TO_WIN = 5;
 @Injectable({
     providedIn: 'root'
   })
-export class EndGameWinnerCheckService {
+export class EndGameCheckClassicService implements EndGameCheckInterface {
 
-  private turnCount = 0;
+  private turnCount: number;
 
-  private matrix:FieldBoxInterface[] = [];
+  private matrix:FieldBoxInterface[];
 
-  private whichTurn: FieldStatus = 'untouched';
+  private whichTurn: FieldStatus;
 
-  public winner$ = new Subject<string>();
+  public winner$: Subject<string>;
 
-  constructor() { }
+  constructor() {
+    this.turnCount = 0;
+    this.matrix = [];
+    this.whichTurn = 'untouched';
+    this.winner$ = new Subject<string>()
+  }
 
   public startCheck(fieldMatrix: FieldBoxInterface[], whichLastTurn: FieldStatus): void {
     this.turnCount++;
@@ -56,6 +62,5 @@ export class EndGameWinnerCheckService {
 
   private setWinner(): void {
     this.winner$.next(this.whichTurn);
-
   }
 }

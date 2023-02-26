@@ -9,8 +9,18 @@ $modal-content-border-radius: 0px 0px  5px 5px;
 $modal-box-border-radius: 5px;
 $modal-icons-color: black;
 $modal-icons-hover: lighten($modal-icons-color, 30%);
+$side-panel-width: 30vw;
 
 body { margin: 0; padding-top: 50px; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html { height: 100%;}
 body { margin: 0; color: $primary-font-color; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-button {
+  width: 10vw;
+  z-index: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

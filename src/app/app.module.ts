@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import {FieldModule} from "./shared/modules/field/field.module";
 import {ModalModule} from './shared/modules/modal/modal.module';
-import { FigureNameToIconPipe } from './shared/pipes/figure-name-to-icon.pipe';
+import {AppRoutingModule} from './shared/modules/app-routing/app-routing.module';
+import { SidePanelComponent } from './shared/standalone-components/side-panel/side-panel.component';
 
 @NgModule({
     declarations: [
@@ -13,7 +13,9 @@ import { FigureNameToIconPipe } from './shared/pipes/figure-name-to-icon.pipe';
     imports: [
         BrowserModule,
         FieldModule,
-        ModalModule
+        ModalModule,
+        AppRoutingModule,
+        SidePanelComponent,
     ],
     providers: [],
     exports: [],
