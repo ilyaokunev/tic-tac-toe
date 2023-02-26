@@ -10,7 +10,7 @@ import {MakeTurnInterface} from '../../services/make-turn-services/make-turn.int
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.scss']
 })
-export class FieldComponent implements OnInit, OnDestroy {
+export class FieldComponent implements OnDestroy {
 
   @Input()
   fieldSize = '3';
@@ -26,24 +26,7 @@ export class FieldComponent implements OnInit, OnDestroy {
     const fieldSizeInNumber = +this.fieldSize;
     this.mainFieldService.createField(fieldSizeInNumber);
     this.field = this.mainFieldService.getField();
-    this.makeTurnService.init(this.field);
   }
-
-  ngOnInit(): void {
-    this.subscribeForReset();
-  }
-
-  private subscribeForReset(): void {
-    this.subscription.add(
-      this.mainFieldService.reset$.subscribe(() => {
-        this.setFieldFromMainFieldService();
-      })
-    )
-  }
-
-  private setFieldFromMainFieldService(): void {
-    this.field = this.mainFieldService.getField();
-  };
 
   public trackByFunc(index: number): number {
     return index;
@@ -52,7 +35,6 @@ export class FieldComponent implements OnInit, OnDestroy {
   public makeTurn(boxIndex: number): void {
     this.makeTurnService.makeTurn(boxIndex);
   };
-
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

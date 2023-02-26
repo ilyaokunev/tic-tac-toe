@@ -4,7 +4,7 @@ import {MainFieldService} from '../main-field.service';
 import {FieldBoxInterface, FilledFieldStatus} from '../../../../../core/interfaces/fieldBox.interface';
 import {FIELD_STATUSES} from '../../../../../core/constants/field-statuses';
 import {END_GAME_CHECK_SERVICE_TOKEN} from '../../../../../core/tokens/end-game-check-service.token';
-import {EndGameCheckInterface} from '../end-game-check-services/make-turn.interface';
+import {EndGameCheckInterface} from '../end-game-check-services/end-game-check.interface';
 import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-modal.component';
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
@@ -27,12 +27,12 @@ export class MakeTurnBotService implements MakeTurnInterface {
     private modalService: ModalService,
     private endGameChecker: EndGameCheckBotService,
   ) {
+    setTimeout(() => {
+      this.fieldMatrix = this.mainFieldService.getField();
+      this.endGameChecker.init(this.fieldMatrix);
+    }, 0);
     this.subscribeForWinner();
     this.subscribeForReset();
-  }
-
-  public init(fieldMatrix: FieldBoxInterface[]): void {
-    this.fieldMatrix = fieldMatrix;
   }
 
   public subscribeForReset(): void {
@@ -77,7 +77,6 @@ export class MakeTurnBotService implements MakeTurnInterface {
 
   private reset(): void {
     this.unblockField();
-    this.fieldMatrix = this.mainFieldService.getField();
     this.whichTurn = FIELD_STATUSES.CROSS;
   }
 

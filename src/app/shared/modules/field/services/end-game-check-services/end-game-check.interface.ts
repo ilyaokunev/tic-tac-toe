@@ -3,6 +3,8 @@ import {FieldBoxInterface, FieldStatus} from '../../../../../core/interfaces/fie
 
 export interface EndGameCheckInterface {
 
+  init:(matrix: FieldBoxInterface[]) => void;
+
   winner$:Subject<string>;
 
   startCheck: (fieldMatrix: FieldBoxInterface[], whichLastTurn: FieldStatus) => void;

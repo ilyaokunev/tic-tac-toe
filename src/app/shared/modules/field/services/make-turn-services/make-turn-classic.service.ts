@@ -6,6 +6,7 @@ import {FIELD_STATUSES} from '../../../../../core/constants/field-statuses';
 import {EndGameModalComponent} from '../../../modal/end-game-modal/end-game-modal.component';
 import {MODAL_TITLES} from '../../../../../core/constants/modal-titles';
 import {ModalService} from '../../../../../core/services/modal.service';
+import {EndGameCheckBotService} from '../end-game-check-services/end-game-check-bot.service';
 import {EndGameCheckClassicService} from '../end-game-check-services/end-game-check-classic.service';
 
 @Injectable({
@@ -24,34 +25,32 @@ export class MakeTurnClassicService implements MakeTurnInterface {
     private modalService: ModalService,
     private endGameChecker: EndGameCheckClassicService,
   ) {
+    setTimeout(() => {
+      this.fieldMatrix = this.mainFieldService.getField();
+      this.endGameChecker.init(this.fieldMatrix);
+    }, 0);
     this.subscribeForWinner();
     this.subscribeForReset();
   }
 
-
-  public init(fieldMatrix: FieldBoxInterface[]): void {
-    this.fieldMatrix = fieldMatrix;
-  }
-
   public subscribeForReset(): void {
-      this.mainFieldService.reset$.subscribe(() => {
-        this.reset();
-      })
+    this.mainFieldService.reset$.subscribe(() => {
+      this.reset();
+    })
   }
 
   public subscribeForWinner(): void {
-      this.endGameChecker.winner$.pipe(
-      ).subscribe((winner) => {
-        this.modalService.createModal(
-          EndGameModalComponent,
-          { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
-          this.blockField.bind(this),
-        );
-      })
+    this.endGameChecker.winner$.subscribe((winner) => {
+      this.modalService.createModal(
+        EndGameModalComponent,
+        { title: MODAL_TITLES.END_GAME_TITLE, data: {winner} },
+        this.blockField.bind(this),
+      );
+    })
   }
 
   public makeTurn(boxId: number): void {
-
+    console.log('bot service');
     const currentBox = this.fieldMatrix[boxId];
     if ( !this.isTurnsBlocked && currentBox.fieldStatus === FIELD_STATUSES.UNTOUCHED ) {
       currentBox.fieldStatus = this.whichTurn;
@@ -76,8 +75,8 @@ export class MakeTurnClassicService implements MakeTurnInterface {
 
   private reset(): void {
     this.unblockField();
-    this.fieldMatrix = this.mainFieldService.getField();
     this.whichTurn = FIELD_STATUSES.CROSS;
   }
+
 
 }
